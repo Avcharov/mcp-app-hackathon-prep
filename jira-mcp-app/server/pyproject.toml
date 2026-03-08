@@ -1,0 +1,11 @@
+[project]
+name = "server"
+version = "0.1.0"
+description = "MCP Server for Jira."
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "anyio>=4.12.1",
+    "mcp>=1.26.0",
+    "pydantic-settings>=2.13.1",
+]
