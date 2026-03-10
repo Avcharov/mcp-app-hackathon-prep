@@ -5,11 +5,9 @@ from infrastructure.di.builder import DIContainerBuilder
 
 
 async def serve() -> None:
-    server = MCPServer(
-        di_container=DIContainerBuilder().build()
-    )
-
-    await server.run()
+    async with DIContainerBuilder() as di_container:
+        server = MCPServer(di_container=di_container)
+        await server.run()
 
 
 def main() -> None:

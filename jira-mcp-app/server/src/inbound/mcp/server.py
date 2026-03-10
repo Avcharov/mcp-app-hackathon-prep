@@ -1,5 +1,6 @@
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
+from typing import Any
 
 from mcp.server import FastMCP
 
@@ -28,5 +29,5 @@ class MCPServer:
         await self._mcp.run_streamable_http_async()
 
     @asynccontextmanager
-    async def _lifespan(self, *args, **kwargs) -> AsyncIterator[Context]:
+    async def _lifespan(self, *args: Any, **kwargs: Any) -> AsyncIterator[Context]:
         yield Context(container=self._container)
