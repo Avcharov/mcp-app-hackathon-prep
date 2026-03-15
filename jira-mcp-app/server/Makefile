@@ -6,7 +6,8 @@ build:
 	@echo "Building MCP server image"
 	@docker build -f Dockerfile -t $(IMAGE) .
 
-up-dev: build
+## Start MCP inspector for development
+up-inspector: build
 	npx @modelcontextprotocol/inspector docker run -i --env-file .env.local --name $(CONTAINER_NAME) $(IMAGE)
 
 ## Removes the MCP server container

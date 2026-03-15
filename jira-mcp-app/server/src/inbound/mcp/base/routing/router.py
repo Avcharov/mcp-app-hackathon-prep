@@ -20,8 +20,6 @@ class Router:
 
         return wrapper
 
-
-
     @property
     def tools(self) -> list[Endpoint]:
         return self._tools
