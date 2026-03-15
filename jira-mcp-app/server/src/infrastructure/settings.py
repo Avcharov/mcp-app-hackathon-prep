@@ -1,16 +1,11 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-class HTTPSettings(BaseSettings):
-    model_config = SettingsConfigDict(env_prefix='HTTP_')
-
-    HOST: str = "0.0.0.0"
-    PORT: int
-
-
 class AppSettings(BaseSettings):
+    model_config = SettingsConfigDict(env_prefix='APP_')
+
     NAME: str = "Jira MCP Server"
-    DEBUG: bool
+    DEBUG: bool = False
 
 
 class JiraSettings(BaseSettings):

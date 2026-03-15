@@ -17,4 +17,4 @@ class IssueService:
         *,
         issue_id_or_key: str,
     ) -> dict[str, Any]:
-        pass
+        return await self._jira_client.get_issue(issue_id_or_key=issue_id_or_key)

@@ -1,15 +1,15 @@
+from domain.service.issue import IssueService
 from infrastructure.di.container import DIContainer
-from infrastructure.settings import AppSettings, HTTPSettings, JiraSettings
+from infrastructure.settings import AppSettings, JiraSettings
 from outbound.jira import JiraClient
 
 
-class DIContainerBuilder:
+class DIContainerManager:
 
     def __init__(self) -> None:
         self._container = DIContainer()
 
     async def __aenter__(self) -> DIContainer:
-        self._container[HTTPSettings] = HTTPSettings()
         self._container[AppSettings] = AppSettings()
         self._container[JiraSettings] = JiraSettings()
 
@@ -19,9 +19,13 @@ class DIContainerBuilder:
             domain=self._container[JiraSettings].DOMAIN,
         )
 
+        self._container[IssueService] = IssueService(
+            jira_client=self._container[JiraClient],
+        )
+
         await self._container[JiraClient].__aenter__()
 
         return self._container
 
     async def __aexit__(self, *args, **kwargs) -> None:
-        pass
+        await self._container[JiraClient].__aexit__(*args, **kwargs)
