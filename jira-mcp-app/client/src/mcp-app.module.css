@@ -1,0 +1,212 @@
+.main {
+  width: 100%;
+  padding: var(--spacing-md);
+
+  > * {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  > * + * {
+    margin-top: var(--spacing-lg);
+  }
+}
+
+.searchRow {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+
+  input {
+    flex: 1;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-family: inherit;
+    font-size: inherit;
+    border: var(--border-width-regular) solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    background: var(--color-background-primary);
+    color: var(--color-text-primary);
+
+    &::placeholder {
+      color: var(--color-text-secondary);
+    }
+
+    &:focus {
+      outline: calc(var(--border-width-regular) * 2) solid var(--color-ring-primary);
+      outline-offset: var(--border-width-regular);
+    }
+  }
+
+  button {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: none;
+    border-radius: var(--border-radius-md);
+    color: var(--color-text-on-accent);
+    font-weight: var(--font-weight-bold);
+    background-color: var(--color-accent);
+    cursor: pointer;
+    white-space: nowrap;
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--color-accent) 85%, var(--color-background-inverse));
+    }
+
+    &:focus-visible {
+      outline: calc(var(--border-width-regular) * 2) solid var(--color-ring-primary);
+      outline-offset: var(--border-width-regular);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.issueCard {
+  border: var(--border-width-regular) solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+}
+
+.issueHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: var(--color-background-secondary);
+  border-bottom: var(--border-width-regular) solid var(--color-border);
+}
+
+.issueKey {
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-accent);
+}
+
+.issueType {
+  font-size: var(--font-text-sm-size);
+  color: var(--color-text-secondary);
+}
+
+.issueSummary {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-heading-lg-size);
+  font-weight: var(--font-weight-medium);
+}
+
+.issueBody {
+  padding: 0 var(--spacing-md) var(--spacing-md);
+
+  > * {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  > * + * {
+    margin-top: var(--spacing-md);
+  }
+}
+
+.fieldGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-sm) var(--spacing-lg);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.fieldLabel {
+  font-size: var(--font-text-sm-size);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.fieldValue {
+  font-size: var(--font-text-md-size);
+}
+
+.description {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-text-sm-size);
+  line-height: var(--font-text-md-line-height);
+  white-space: pre-wrap;
+}
+
+.labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+}
+
+.label {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--color-background-info);
+  color: var(--color-text-info);
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-text-sm-size);
+  font-weight: var(--font-weight-medium);
+}
+
+.badge {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-text-sm-size);
+  font-weight: var(--font-weight-bold);
+}
+
+.statusTodo {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.statusInProgress {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.statusDone {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.priorityCritical {
+  color: #dc2626;
+}
+
+.priorityHigh {
+  color: #ea580c;
+}
+
+.priorityMedium {
+  color: #ca8a04;
+}
+
+.priorityLow {
+  color: #6b7280;
+}
+
+.error {
+  padding: var(--spacing-md);
+  background: #fef2f2;
+  color: #dc2626;
+  border-radius: var(--border-radius-md);
+  border: var(--border-width-regular) solid #fecaca;
+}
+
+.hint {
+  font-size: var(--font-text-sm-size);
+  color: var(--color-text-secondary);
+  text-align: center;
+  font-style: italic;
+}
