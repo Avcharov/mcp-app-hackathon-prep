@@ -23,6 +23,7 @@ const DIST_DIR = import.meta.filename.endsWith(".ts")
 
 const MOCK_ISSUES: Record<string, object> = {
   "PROJ-101": {
+    expand: "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
     id: "10001",
     key: "PROJ-101",
     self: "https://myteam.atlassian.net/rest/api/3/issue/10001",
@@ -69,6 +70,7 @@ const MOCK_ISSUES: Record<string, object> = {
     },
   },
   "PROJ-102": {
+    expand: "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
     id: "10002",
     key: "PROJ-102",
     self: "https://myteam.atlassian.net/rest/api/3/issue/10002",
@@ -115,6 +117,7 @@ const MOCK_ISSUES: Record<string, object> = {
     },
   },
   "PROJ-103": {
+    expand: "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
     id: "10003",
     key: "PROJ-103",
     self: "https://myteam.atlassian.net/rest/api/3/issue/10003",
@@ -161,6 +164,7 @@ const MOCK_ISSUES: Record<string, object> = {
     },
   },
   "PROJ-104": {
+    expand: "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
     id: "10004",
     key: "PROJ-104",
     self: "https://myteam.atlassian.net/rest/api/3/issue/10004",
@@ -207,6 +211,7 @@ const MOCK_ISSUES: Record<string, object> = {
     },
   },
   "PROJ-105": {
+    expand: "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
     id: "10005",
     key: "PROJ-105",
     self: "https://myteam.atlassian.net/rest/api/3/issue/10005",
@@ -258,25 +263,25 @@ export function createServer(): McpServer {
     version: "0.1.0",
   });
 
-  const resourceUri = "ui://get-issue/mcp-app.html";
+  const resourceUri = "ui://get_issue/mcp-app.html";
 
-  // Register the get-issue tool (matches server PR: issue_id param)
+  // Register the get_issue tool (matches server PR: issue_id param)
   registerAppTool(
     server,
-    "get-issue",
+    "get_issue",
     {
       title: "Get Issue",
       description:
         "Returns the details for the issue.",
       inputSchema: {
-        issue_id: z
+        issue_id_or_key: z
           .string()
-          .describe("The ID of the task."),
+          .describe("The ID or key of the issue (e.g. PROJ-101)."),
       },
       _meta: { ui: { resourceUri } },
     },
-    async ({ issue_id }): Promise<CallToolResult> => {
-      const issue = MOCK_ISSUES[issue_id.toUpperCase()];
+    async ({ issue_id_or_key }): Promise<CallToolResult> => {
+      const issue = MOCK_ISSUES[issue_id_or_key.toUpperCase()];
 
       if (!issue) {
         return {
@@ -284,7 +289,7 @@ export function createServer(): McpServer {
           content: [
             {
               type: "text",
-              text: `Issue "${issue_id}" not found. Available keys: ${Object.keys(MOCK_ISSUES).join(", ")}`,
+              text: `Issue "${issue_id_or_key}" not found. Available keys: ${Object.keys(MOCK_ISSUES).join(", ")}`,
             },
           ],
         };

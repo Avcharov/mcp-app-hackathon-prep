@@ -163,8 +163,8 @@ function JiraAppInner({ app, toolResult, hostContext }: JiraAppInnerProps) {
 
     try {
       const result = await app.callServerTool({
-        name: "get-issue",
-        arguments: { issue_id: id },
+        name: "get_issue",
+        arguments: { issue_id_or_key: id },
       });
 
       // Discard if a newer request was fired while we awaited

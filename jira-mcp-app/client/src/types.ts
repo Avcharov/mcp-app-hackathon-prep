@@ -81,6 +81,7 @@ export interface JiraIssueFields {
 }
 
 export interface JiraIssue {
+  expand?: string;
   id: string;
   key: string;
   self: string;
