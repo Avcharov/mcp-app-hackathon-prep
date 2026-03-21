@@ -27,7 +27,7 @@ class ColorFormatter(logging.Formatter):
 
 
 def configure_logging():
-    handler = logging.StreamHandler(sys.stdout)
+    handler = logging.StreamHandler(sys.stderr)
     handler.setFormatter(ColorFormatter())
 
     logger = logging.getLogger()

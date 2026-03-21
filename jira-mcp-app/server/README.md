@@ -8,24 +8,25 @@ To setup this MCP server for Claude client, you may add this to your configurati
 corresponding environment variables with your values:
 ```json
 {
+  "mcpServers": {
     "jira-mcp": {
-        "command": "docker",
-        "args": [
-            "run",
-            "-i",
-            "--rm",
-            "--name", "jira-mcp-server",
-            "-e", "JIRA_API_TOKEN",
-            "-e", "JIRA_USERNAME",
-            "-e", "JIRA_DOMAIN",
-            "borisplan/jira-mcp-server:latest"
-        ],
-        "env": {
-            "JIRA_API_TOKEN": <YOUR JIRA API TOKEN>,
-            "JIRA_USERNAME": <YOUR JIRA EMAIL>,
-            "JIRA_DOMAIN": <YOUR JIRA DOMAIN>,
-        }
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e", "JIRA_API_TOKEN",
+        "-e", "JIRA_USERNAME",
+        "-e", "JIRA_DOMAIN",
+        "borisplaton/jira-mcp-server:latest"
+      ],
+      "env": {
+        "JIRA_API_TOKEN": "<JIRA_API_TOKEN>",
+        "JIRA_USERNAME": "<JIRA_USERNAME>",
+        "JIRA_DOMAIN": "<JIRA_DOMAIN>"
+      }
     }
+  }
 }
 ```
 

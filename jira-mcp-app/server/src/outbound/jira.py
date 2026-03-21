@@ -4,6 +4,8 @@ from urllib.parse import urljoin
 
 from aiohttp import BasicAuth, ClientSession
 
+from infrastructure.settings import jira_settings
+
 logger = logging.getLogger(__name__)
 
 
@@ -25,28 +27,36 @@ class JiraClient:
             auth=BasicAuth(username, api_token),
         )
 
-    async def _request[T](
-        self,
-        *,
-        url: str,
-    ) -> T:
-        response = await self._session.get(url)
-
-        response_body = await response.text()
-        logger.info(f"{url=}; response={response_body[:150]}")
-
-        return await response.json()
-
     async def get_issue(
         self,
         *,
         issue_id_or_key: str,
     ) -> dict[str, Any]:
-        return await self._request(url=f"issue/{issue_id_or_key}")
+        return await self._request(
+            method="GET",
+            url=f"issue/{issue_id_or_key}",
+        )
 
-    async def __aenter__(self) -> "JiraClient":
-        self._session = await self._session.__aenter__()
-        return self
+    @classmethod
+    def build(cls) -> JiraClient:
+        return JiraClient(
+            api_token=jira_settings.API_TOKEN,
+            username=jira_settings.USERNAME,
+            domain=jira_settings.DOMAIN,
+        )
 
-    async def __aexit__(self, *args, **kwargs) -> None:
-        await self._session.__aexit__(*args, **kwargs)
+    async def _request[T](
+        self,
+        *,
+        method: str,
+        url: str,
+    ) -> T:
+        response = await self._session.request(
+            method=method,
+            url=url,
+        )
+
+        response_body = await response.text()
+        logger.info(f"{method} {url} payload={response_body[:150]}")
+
+        return await response.json()

@@ -14,3 +14,15 @@ class JiraSettings(BaseSettings):
     API_TOKEN: str
     USERNAME: str
     DOMAIN: str
+
+
+class MCPAppSettings(BaseSettings):
+    model_config = SettingsConfigDict(env_prefix='MCP_')
+
+    APP_HTML_PATH: str
+    ISSUE_APP_RESOURCE: str = "ui://issue/mcp-app.html"
+
+
+app_settings = AppSettings()
+mcp_settings = MCPAppSettings()
+jira_settings = JiraSettings()
