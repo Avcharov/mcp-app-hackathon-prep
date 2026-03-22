@@ -56,5 +56,4 @@ class MCPServer:
     @asynccontextmanager
     async def _lifespan(self, *args: Any, **kwargs: Any) -> AsyncIterator[None]:
         yield
-        manager = HTTPSessionManager()
-        await manager.close_all()
+        await HTTPSessionManager().close_all()

@@ -18,8 +18,9 @@ class HTTPSessionManager:
         self._sessions: dict[str, ClientSession] = {}
 
     def add(self, name: str, session: ClientSession) -> None:
-        logger.debug(f"Adding {name} session")
-        self._sessions.setdefault(name, session)
+        if name not in self._sessions:
+            logger.debug(f"Adding {name} session")
+            self._sessions.setdefault(name, session)
 
     def get(self, name: str) -> ClientSession | None:
         return self._sessions.get(name)
