@@ -15,6 +15,11 @@ jobs:
       - name: Check out repository content
         uses: actions/checkout@v5
 
+      - uses: benjlevesque/short-sha@v3.0
+        id: short-sha
+        with:
+          length: 6
+
       - name: Log in to Docker Hub
         uses: docker/login-action@da5b89b92c1be57a07eeed1334a0728b94145654
         with:
@@ -24,11 +29,11 @@ jobs:
       - name: Build Docker image
         run: |
           cd server/
-          make build IMAGE="$DOCKER_IMAGE" IMAGE_TAG="$COMMIT_SHA"
-          docker image tag "$DOCKER_IMAGE":"$COMMIT_SHA" "$DOCKER_IMAGE":latest
+          make build IMAGE="$DOCKER_IMAGE" IMAGE_TAG="${{ steps.short-sha.outputs.sha }}"
+          docker image tag "$DOCKER_IMAGE":"${{ steps.short-sha.outputs.sha }}" "$DOCKER_IMAGE":latest
 
       - name: Push Docker image
         run: |
           cd server/
-          make push-image IMAGE_TAG="$COMMIT_SHA"
+          make push-image IMAGE_TAG="${{ steps.short-sha.outputs.sha }}"
           make push-image IMAGE_TAG=latest
