@@ -4,6 +4,7 @@ from urllib.parse import urljoin
 
 from aiohttp import BasicAuth, ClientSession
 
+from infrastructure.http import HTTPSessionManager
 from infrastructure.settings import jira_settings
 
 logger = logging.getLogger(__name__)
@@ -18,14 +19,21 @@ class JiraClient:
         username: str,
         domain: str,
     ) -> None:
-        self._session = ClientSession(
-            base_url=urljoin(domain, "/rest/api/3/"),
-            headers={
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            auth=BasicAuth(username, api_token),
-        )
+        manager = HTTPSessionManager()
+        http_session_name = self.__class__.__name__
+
+        if not (session := manager.get(http_session_name)):
+            self._session = ClientSession(
+                base_url=urljoin(domain, "/rest/api/3/"),
+                headers={
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                },
+                auth=BasicAuth(username, api_token),
+            )
+            manager.add(http_session_name, self._session)
+        else:
+            self._session = session
 
     async def get_issue(
         self,

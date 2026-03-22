@@ -1,8 +1,12 @@
 import logging
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
+from typing import Any
 
 from mcp.server import FastMCP
 
 from inbound.mcp.routing.router import Router
+from infrastructure.http import HTTPSessionManager
 
 logger = logging.getLogger(__name__)
 
@@ -26,8 +30,8 @@ class MCPServer:
         logger.info("Starting MCP server")
         await self._mcp.run_stdio_async()
 
-    @staticmethod
     def _build_mcp(
+        self,
         *,
         name: str,
         debug: bool,
@@ -37,6 +41,7 @@ class MCPServer:
             name=name,
             json_response=True,
             debug=debug,
+            lifespan=self._lifespan,
         )
 
         for router in routers:
@@ -47,3 +52,9 @@ class MCPServer:
                 mcp.resource(*resource.args, **resource.kwargs)(resource.func)
 
         return mcp
+
+    @asynccontextmanager
+    async def _lifespan(self, *args: Any, **kwargs: Any) -> AsyncIterator[None]:
+        yield
+        manager = HTTPSessionManager()
+        await manager.close_all()

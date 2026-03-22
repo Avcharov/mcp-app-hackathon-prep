@@ -6,6 +6,7 @@ class AppSettings(BaseSettings):
 
     NAME: str = "Jira MCP Server"
     DEBUG: bool = False
+    LOG_LEVEL: str = "INFO"
 
 
 class JiraSettings(BaseSettings):

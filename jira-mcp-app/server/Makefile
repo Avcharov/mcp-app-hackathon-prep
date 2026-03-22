@@ -1,10 +1,9 @@
 IMAGE := borisplaton/jira-mcp-server:latest
-CONTAINER_NAME := jira-mcp-server
 
 
 ## Start MCP inspector for development
-up-inspector:
-	@npx @modelcontextprotocol/inspector docker run -i --env-file .env.local --name $(CONTAINER_NAME) $(IMAGE)
+up-inspector: build
+	@npx @modelcontextprotocol/inspector docker run -i --env-file .env.local $(IMAGE)
 
 
 HOST_MCP_APP_HTML_DIR ?= ../client/dist/
@@ -16,9 +15,3 @@ build:
 		--build-context mcp-html-dir=$(HOST_MCP_APP_HTML_DIR) \
 		-t $(IMAGE) \
 		 .
-
-
-## Removes the MCP server container
-stop:
-	@docker rm -f $(CONTAINER_NAME) 2> /dev/null | true
-	@echo "Jira MCP server stopped"

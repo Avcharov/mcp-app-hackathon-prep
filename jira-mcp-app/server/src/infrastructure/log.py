@@ -1,6 +1,8 @@
 import logging
 import sys
 
+from infrastructure.settings import app_settings
+
 
 class ColorFormatter(logging.Formatter):
     RESET = "\033[0m"
@@ -31,5 +33,5 @@ def configure_logging():
     handler.setFormatter(ColorFormatter())
 
     logger = logging.getLogger()
-    logger.setLevel(logging.INFO)
+    logger.setLevel(app_settings.LOG_LEVEL)
     logger.addHandler(handler)
