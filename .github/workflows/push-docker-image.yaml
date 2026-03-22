@@ -9,7 +9,7 @@ jobs:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     env:
-      DOCKER_IMAGE_TAG: ${{ github.sha::0:7 }}
+      DOCKER_IMAGE_TAG: ${{ github.sha }}
       DOCKER_IMAGE: borisplaton/jira-mcp-server
     steps:
       - name: Check out repository content
