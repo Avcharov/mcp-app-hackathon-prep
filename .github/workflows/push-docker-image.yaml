@@ -27,12 +27,12 @@ jobs:
 
       - name: Build Docker image
         run: |
-          cd server/
+          cd jira-mcp-app/server/
           make build IMAGE="$DOCKER_IMAGE" IMAGE_TAG="${{ steps.short-sha.outputs.sha }}"
           docker image tag "$DOCKER_IMAGE":"${{ steps.short-sha.outputs.sha }}" "$DOCKER_IMAGE":latest
 
       - name: Push Docker image
         run: |
-          cd server/
+          cd jira-mcp-app/server/
           make push-image IMAGE_TAG="${{ steps.short-sha.outputs.sha }}"
           make push-image IMAGE_TAG=latest
