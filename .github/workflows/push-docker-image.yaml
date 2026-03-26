@@ -1,0 +1,37 @@
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_IMAGE: borisplaton/jira-mcp-server
+    steps:
+      - name: Check out repository content
+        uses: actions/checkout@v5
+
+      - uses: benjlevesque/short-sha@v3.0
+        id: short-sha
+        with:
+          length: 6
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@da5b89b92c1be57a07eeed1334a0728b94145654
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker image
+        run: |
+          cd jira-mcp-app/server/
+          make build IMAGE="$DOCKER_IMAGE" IMAGE_TAG="${{ steps.short-sha.outputs.sha }}"
+          docker image tag "$DOCKER_IMAGE":"${{ steps.short-sha.outputs.sha }}" "$DOCKER_IMAGE":latest
+
+      - name: Push Docker image
+        run: |
+          cd jira-mcp-app/server/
+          make push-image IMAGE_TAG="${{ steps.short-sha.outputs.sha }}"
+          make push-image IMAGE_TAG=latest
